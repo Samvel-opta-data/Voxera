@@ -3,7 +3,7 @@
 Kurzanleitung zum schnellen Starten und Importieren in IntelliJ.
 
 Voraussetzungen:
-- Java 17 JDK installiert
+- Java 25 JDK installiert
 - Git installiert
 - Maven (optional, das Projekt enthält mvnw)
 
@@ -25,7 +25,7 @@ Build & Run (mit Maven wrapper):
 
 Wichtige Hinweise:
 - Devtools ist als Runtime-Dependency enthalten für schnelleres Entwickeln (Auto-Restart).
-- Die Standard-Java-Version ist auf 17 gesetzt (siehe `pom.xml`).
+- Die Standard-Java-Version ist auf 25 gesetzt (siehe `pom.xml`).
 - Aktuator-Endpunkte für `health` und `info` sind aktiviert (siehe `application.properties`).
 
 Wenn du willst, kann ich noch CI (GitHub Actions) und ein `Dockerfile` hinzufügen.
