@@ -28,5 +28,5 @@ Wichtige Hinweise:
 - Die Standard-Java-Version ist auf 25 gesetzt (siehe `pom.xml`).
 - Aktuator-Endpunkte für `health` und `info` sind aktiviert (siehe `application.properties`).
 
-Wenn du willst, kann ich noch CI (GitHub Actions) und ein `Dockerfile` hinzufügen.
+
 
