@@ -11,4 +11,9 @@ public class PageController {
     public String home() {
         return "Homepage";
     }
+
+    @GetMapping("/impressum")
+    public String impressum() {
+        return "Impressum";
+    }
 }
