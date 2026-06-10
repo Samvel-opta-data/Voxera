@@ -12,7 +12,8 @@ import lombok.ToString;
 
 public class server {
 
-    private String serverId;
-    private String userId;
+    private int serverId;
+    private int userId;
+    private int ownerId;
 
 }

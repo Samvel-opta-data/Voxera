@@ -1,4 +1,7 @@
 package voxera.repisotory;
 
-public class userRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+import voxera.entity.user;
+
+public interface userRepository extends JpaRepository<user, Integer> {
 }

@@ -1,4 +1,7 @@
 package voxera.repisotory;
 
-public class channelCategoryRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+import voxera.entity.channelCategory;
+
+public interface channelCategoryRepository extends JpaRepository<channelCategory, Integer> {
 }

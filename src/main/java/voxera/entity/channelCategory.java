@@ -13,4 +13,6 @@ import lombok.ToString;
 public class channelCategory {
     private String categoryId;
     private String categoryName;
+    private int serverId;
+
 }
