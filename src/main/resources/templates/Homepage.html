@@ -12,7 +12,7 @@
     <div class="nav-buttons">
         <button title="Home" onclick="window.location.href='/'">⌂</button>
         <button title="Telefon">☎</button>
-        <button title="Kamera">📷</button>
+        <button id="cameraButton" title="Kamera" aria-pressed="false">📷</button>
         <button title="Impressum" onclick="window.location.href='/impressum'">ⓘ</button>
     </div>
 </nav>
@@ -28,5 +28,59 @@
         <div class="card"><h3>Hilfe</h3><p>Aktiver Support für alle deine Fragen.</p></div>
     </section>
 </main>
+
+<div class="camera-widget" id="cameraWidget" hidden>
+    <video id="cameraPreview" autoplay playsinline muted></video>
+    <div class="camera-label">Kamera-Vorschau</div>
+    <div class="camera-error" id="cameraError"></div>
+</div>
+
+<script>
+    (function () {
+        const cameraButton = document.getElementById('cameraButton');
+        const cameraWidget = document.getElementById('cameraWidget');
+        const cameraPreview = document.getElementById('cameraPreview');
+        const cameraError = document.getElementById('cameraError');
+        let cameraStream = null;
+
+        async function toggleCamera() {
+            if (cameraStream) {
+                cameraStream.getTracks().forEach(track => track.stop());
+                cameraStream = null;
+                cameraPreview.srcObject = null;
+                cameraWidget.hidden = true;
+                cameraWidget.classList.remove('error');
+                cameraButton.classList.remove('active');
+                cameraButton.setAttribute('aria-pressed', 'false');
+                cameraError.textContent = '';
+                return;
+            }
+
+            try {
+                cameraStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+                cameraPreview.srcObject = cameraStream;
+                cameraWidget.hidden = false;
+                cameraWidget.classList.remove('error');
+                cameraButton.classList.add('active');
+                cameraButton.setAttribute('aria-pressed', 'true');
+                cameraError.textContent = '';
+            } catch (error) {
+                cameraWidget.hidden = false;
+                cameraWidget.classList.add('error');
+                cameraError.textContent = 'Kamera konnte nicht gestartet werden. Bitte Browser-Berechtigung prüfen.';
+                cameraButton.classList.remove('active');
+                cameraButton.setAttribute('aria-pressed', 'false');
+                console.error(error);
+            }
+        }
+
+        cameraButton.addEventListener('click', toggleCamera);
+        window.addEventListener('beforeunload', () => {
+            if (cameraStream) {
+                cameraStream.getTracks().forEach(track => track.stop());
+            }
+        });
+    })();
+</script>
 </body>
 </html>

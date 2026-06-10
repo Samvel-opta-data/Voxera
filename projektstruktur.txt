@@ -1,0 +1,54 @@
+Auflistung der Ordnerpfade für Volume Windows
+Volumeseriennummer : BA87-FE6A
+C:\USERS\V.ROMANOV\DOCUMENTS\VOXERA\SRC
++---main
+¦   +---java
+¦   ¦   +---voxera
+¦   ¦       ¦   VoxeraApplication.java
+¦   ¦       ¦   
+¦   ¦       +---config
+¦   ¦       ¦       securityConfig.java
+¦   ¦       ¦       webSocketConfig.java
+¦   ¦       ¦       
+¦   ¦       +---controller
+¦   ¦       ¦       authController.java
+¦   ¦       ¦       channelController.java
+¦   ¦       ¦       messageController.java
+¦   ¦       ¦       PageController.java
+¦   ¦       ¦       serverController.java
+¦   ¦       ¦       
+¦   ¦       +---entity
+¦   ¦       ¦       channel.java
+¦   ¦       ¦       channelCategory.java
+¦   ¦       ¦       message.java
+¦   ¦       ¦       server.java
+¦   ¦       ¦       serverMember.java
+¦   ¦       ¦       user.java
+¦   ¦       ¦       
+¦   ¦       +---repisotory
+¦   ¦       ¦       channelCategoryRepository.java
+¦   ¦       ¦       channelRepository.java
+¦   ¦       ¦       messageRepository.java
+¦   ¦       ¦       serverMemberRepository.java
+¦   ¦       ¦       serverRepository.java
+¦   ¦       ¦       userRepository.java
+¦   ¦       ¦       
+¦   ¦       +---service
+¦   ¦               channelService.java
+¦   ¦               messageService.java
+¦   ¦               serverService.java
+¦   ¦               userService.java
+¦   ¦               
+¦   +---resources
+¦       ¦   application.properties
+¦       ¦   
+¦       +---templates
+¦               Homepage.html
+¦               
++---test
+    +---java
+        +---org
+            +---example
+                +---voxera
+                        VoxeraApplicationTests.java
+                        

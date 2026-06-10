@@ -78,6 +78,56 @@ nav{
     box-shadow:0 8px 20px rgba(108,77,255,0.3);
 }
 
+.nav-buttons button.active{
+    background:linear-gradient(
+            135deg,
+            #5fc8ff,
+            #9b7dff
+    );
+    box-shadow:0 10px 25px rgba(120,100,255,0.35);
+}
+
+.camera-widget{
+    position:fixed;
+    right:20px;
+    bottom:20px;
+    width:min(320px, calc(100vw - 40px));
+    border-radius:20px;
+    overflow:hidden;
+    border:1px solid rgba(255,255,255,0.35);
+    background:rgba(255,255,255,0.22);
+    backdrop-filter:blur(14px);
+    box-shadow:0 14px 35px rgba(108,77,255,0.25);
+    z-index:1500;
+}
+
+.camera-widget video{
+    display:block;
+    width:100%;
+    aspect-ratio:4 / 3;
+    object-fit:cover;
+    background:#111;
+}
+
+.camera-widget .camera-label{
+    padding:10px 14px;
+    font-size:0.9rem;
+    color:#2c2c54;
+    font-weight:600;
+}
+
+.camera-widget .camera-error{
+    display:none;
+    padding:10px 14px;
+    font-size:0.85rem;
+    color:#8c2040;
+    background:rgba(255,255,255,0.72);
+}
+
+.camera-widget.error .camera-error{
+    display:block;
+}
+
 /* HERO */
 
 .hero{
