@@ -236,14 +236,14 @@ public class Webcam {
 	 * Open the webcam in either blocking (synchronous) or non-blocking (asynchronous) mode.The
 	 * difference between those two modes lies in the image acquisition mechanism.<br>
 	 * <br>
-	 * In blocking mode, when user calls {@link #getImage()} method, device is being queried for new
-	 * image buffer and user have to wait for it to be available.<br>
+	 * In blocking mode, when User calls {@link #getImage()} method, device is being queried for new
+	 * image buffer and User have to wait for it to be available.<br>
 	 * <br>
 	 * In non-blocking mode, there is a special thread running in the background which constantly
 	 * fetch new images and cache them internally for further use. This cached instance is returned
-	 * every time when user request new image. Because of that it can be used when timeing is very
+	 * every time when User request new image. Because of that it can be used when timeing is very
 	 * important, because all users calls for new image do not have to wait on device response. By
-	 * using this mode user should be aware of the fact that in some cases, when two consecutive
+	 * using this mode User should be aware of the fact that in some cases, when two consecutive
 	 * calls to get new image are executed more often than webcam device can serve them, the same
 	 * image instance will be returned. User should use {@link #isImageNew()} method to distinguish
 	 * if returned image is not the same as the previous one.
@@ -761,7 +761,7 @@ public class Webcam {
 	 */
 	public static List<Webcam> getWebcams() throws WebcamException {
 
-		// timeout exception below will never be caught since user would have to
+		// timeout exception below will never be caught since User would have to
 		// wait around three hundreds billion years for it to occur
 
 		try {
@@ -833,7 +833,7 @@ public class Webcam {
 		try {
 			return getDefault(Long.MAX_VALUE);
 		} catch (TimeoutException e) {
-			// this should never happen since user would have to wait 300000000
+			// this should never happen since User would have to wait 300000000
 			// years for it to occur
 			throw new RuntimeException(e);
 		}
@@ -1095,7 +1095,7 @@ public class Webcam {
 
 	/**
 	 * Switch all webcams to auto open mode. In this mode, each webcam will be automatically open
-	 * whenever user will try to get image from instance which has not yet been open. Please be
+	 * whenever User will try to get image from instance which has not yet been open. Please be
 	 * aware of some side effects! In case of multi-threaded applications, there is no guarantee
 	 * that one thread will not try to open webcam even if it was manually closed in different
 	 * thread.
@@ -1107,7 +1107,7 @@ public class Webcam {
 	}
 
 	/**
-	 * Is auto open mode enabled. Auto open mode will will automatically open webcam whenever user
+	 * Is auto open mode enabled. Auto open mode will will automatically open webcam whenever User
 	 * will try to get image from instance which has not yet been open. Please be aware of some side
 	 * effects! In case of multi-threaded applications, there is no guarantee that one thread will
 	 * not try to open webcam even if it was manually closed in different thread.

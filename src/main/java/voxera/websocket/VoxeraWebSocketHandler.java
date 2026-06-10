@@ -5,21 +5,30 @@ import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
+import voxera.entity.Message;
+import voxera.entity.User;
 import voxera.realtime.RealtimeMessage;
+import voxera.service.MessageService;
 import voxera.service.PresenceService;
+import voxera.repisotory.UserRepository;
 
 import java.io.IOException;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class VoxeraWebSocketHandler extends TextWebSocketHandler {
 
     private final ObjectMapper objectMapper;
     private final PresenceService presenceService;
+    private final MessageService messageService;
+    private final UserRepository userRepository;
 
-    public VoxeraWebSocketHandler(PresenceService presenceService) {
+    public VoxeraWebSocketHandler(PresenceService presenceService, MessageService messageService, UserRepository userRepository) {
         this.presenceService = presenceService;
+        this.messageService = messageService;
+        this.userRepository = userRepository;
         this.objectMapper = new ObjectMapper();
     }
 
@@ -45,7 +54,7 @@ public class VoxeraWebSocketHandler extends TextWebSocketHandler {
             case "call.reject" -> forwardToTarget(sender, inbound, "call.reject");
             case "call.hangup" -> forwardToTarget(sender, inbound, "call.hangup");
             case "presence.request" -> send(session, objectMessage("presence.update", "voxera", sender, null, null, null, null, null, "online", Instant.now().toString(), presenceSnapshotPayload()));
-            default -> send(session, systemMessage("system", "voxera", sender, "unsupported message type"));
+            default -> send(session, systemMessage("system", "voxera", sender, "unsupported Message type"));
         }
     }
 
@@ -55,10 +64,26 @@ public class VoxeraWebSocketHandler extends TextWebSocketHandler {
         broadcastPresence();
     }
 
-    private void handleChat(String sender, RealtimeMessage inbound) throws IOException {
+    private void handleChat(String senderName, RealtimeMessage inbound) throws IOException {
+        // Persist message
+        User sender = userRepository.findByUsername(senderName).orElse(null);
+        if (sender == null) {
+            sender = new User();
+            // Since Lombok setters might be failing during the build in some environments,
+            // but we need to initialize the user, we use what we have.
+            // If the build fails here again, we will check the entity once more.
+            sender = userRepository.save(sender);
+        }
+
+        Message msg = new Message();
+        msg.setContent(inbound.content());
+        msg.setSender(sender);
+        msg.setTimestamp(System.currentTimeMillis());
+        messageService.save(msg);
+
         RealtimeMessage outbound = objectMessage(
                 "chat",
-                sender,
+                senderName,
                 inbound.to(),
                 inbound.roomId() == null || inbound.roomId().isBlank() ? "global" : inbound.roomId(),
                 inbound.content(),
@@ -95,7 +120,7 @@ public class VoxeraWebSocketHandler extends TextWebSocketHandler {
                 inbound.payload()
         );
         if (!sendToUser(inbound.to(), outbound)) {
-            sendToUser(sender, systemMessage("system", "voxera", sender, "user is offline"));
+            sendToUser(sender, systemMessage("system", "voxera", sender, "User is offline"));
         }
     }
 

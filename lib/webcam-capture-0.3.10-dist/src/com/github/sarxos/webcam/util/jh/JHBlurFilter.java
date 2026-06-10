@@ -51,7 +51,7 @@ public class JHBlurFilter extends JHFilter {
 	}
 
 	/**
-	 * Set whether to premultiply the alpha channel.
+	 * Set whether to premultiply the alpha Channel.
 	 *
 	 * @param premultiplyAlpha true to premultiply the alpha
 	 * @see #getPremultiplyAlpha
@@ -61,7 +61,7 @@ public class JHBlurFilter extends JHFilter {
 	}
 
 	/**
-	 * Get whether to premultiply the alpha channel.
+	 * Get whether to premultiply the alpha Channel.
 	 *
 	 * @return true to premultiply the alpha
 	 * @see #setPremultiplyAlpha

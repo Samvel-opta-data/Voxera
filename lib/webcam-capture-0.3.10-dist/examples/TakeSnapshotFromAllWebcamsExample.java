@@ -31,7 +31,7 @@ public class TakeSnapshotFromAllWebcamsExample {
 		 * As you probably know the USB has limited bandwidth and therefore it
 		 * may not be possible to transfer images from as many cameras as you
 		 * would like to wish. This example works when I'm using QQVGA (176x144)
-		 * but fails with the error message when I want to fetch VGA (640x480).
+		 * but fails with the error Message when I want to fetch VGA (640x480).
 		 */
 
 		// open all at once (this is the most time-consuming operation, all

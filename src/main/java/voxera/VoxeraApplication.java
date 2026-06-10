@@ -10,5 +10,4 @@ public class VoxeraApplication {
     public static void main(String[] args) {
         SpringApplication.run(VoxeraApplication.class, args);
     }
-
 }

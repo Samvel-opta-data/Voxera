@@ -365,7 +365,7 @@ public class WebcamDiscoveryService implements Runnable {
 
 	/**
 	 * Webcam discovery service will be automatically started if it's enabled,
-	 * otherwise, when set to disabled, it will never start, even when user try
+	 * otherwise, when set to disabled, it will never start, even when User try
 	 * to run it.
 	 * 
 	 * @param enabled the parameter controlling if discovery shall be started
