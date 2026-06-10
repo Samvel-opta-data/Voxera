@@ -1,23 +1,23 @@
 package voxera.entity;
 
-
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+@Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-
 public class channel {
 
-    private int channelId;
-    private String channelName;
-    private String channelDescription;
-    private String channelType;
-    private String channelStatus;
-    private int serverId;
+    @Id
+    private Integer channelId;
 
+    private String channelName;
 }
+
+
