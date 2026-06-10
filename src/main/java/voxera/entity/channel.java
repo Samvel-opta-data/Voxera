@@ -13,7 +13,11 @@ import lombok.ToString;
 
 public class channel {
 
-    private String channelId;
+    private int channelId;
     private String channelName;
+    private String channelDescription;
+    private String channelType;
+    private String channelStatus;
+    private int serverId;
 
 }

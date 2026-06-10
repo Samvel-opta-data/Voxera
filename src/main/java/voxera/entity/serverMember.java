@@ -12,6 +12,7 @@ import lombok.ToString;
 
 public class serverMember {
 
-    private String serverId;
-    private String userId;
+    private int serverId;
+    private int userId;
+    private String role;
 }

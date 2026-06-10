@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.sql.Timestamp;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -13,5 +15,7 @@ public class message {
 
     private String content;
     private String sender;
-    private String timestamp;
+    private int senderId;
+    private int id;
+    private int timestamp;
 }
