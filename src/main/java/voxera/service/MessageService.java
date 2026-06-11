@@ -2,7 +2,7 @@ package voxera.service;
 
 import org.springframework.stereotype.Service;
 import voxera.entity.Message;
-import voxera.repisotory.MessageRepository;
+import voxera.repository.MessageRepository;
 
 import java.util.List;
 

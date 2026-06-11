@@ -14,9 +14,9 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer, WebSoc
 
     private final PresenceService presenceService;
     private final MessageService messageService;
-    private final voxera.repisotory.UserRepository userRepository;
+    private final voxera.repository.UserRepository userRepository;
 
-    public WebSocketConfig(PresenceService presenceService, MessageService messageService, voxera.repisotory.UserRepository userRepository) {
+    public WebSocketConfig(PresenceService presenceService, MessageService messageService, voxera.repository.UserRepository userRepository) {
         this.presenceService = presenceService;
         this.messageService = messageService;
         this.userRepository = userRepository;

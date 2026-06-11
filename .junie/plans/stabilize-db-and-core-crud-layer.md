@@ -49,7 +49,7 @@ Stabilize Voxera backend startup and basic persistence flow so the app can run w
 - Reported build issue: compile failed earlier due to missing getter/setter methods expected by service/controller logic.
 
 ### Key Decisions
-- Keep current package and naming convention (`voxera.repisotory`, lowercase service/controller class names) to avoid broad refactor now.
+- Keep current package and naming convention (`voxera.repository`, lowercase service/controller class names) to avoid broad refactor now.
 - Use Spring Data derived queries for first filtering needs (`findByCategoryId`, `findByChannelChannelId`) instead of custom JPQL.
 - Keep timestamp as `long` in `Message` for compatibility with existing model, with `@PrePersist` fallback.
 - Prioritize startup reliability and compile consistency before expanding domain complexity.

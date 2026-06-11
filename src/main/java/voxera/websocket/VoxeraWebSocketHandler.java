@@ -10,13 +10,12 @@ import voxera.entity.User;
 import voxera.realtime.RealtimeMessage;
 import voxera.service.MessageService;
 import voxera.service.PresenceService;
-import voxera.repisotory.UserRepository;
+import voxera.repository.UserRepository;
 
 import java.io.IOException;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 public class VoxeraWebSocketHandler extends TextWebSocketHandler {
 

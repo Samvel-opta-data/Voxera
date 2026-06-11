@@ -2,7 +2,7 @@ package voxera.service;
 
 import org.springframework.stereotype.Service;
 import voxera.entity.Channel;
-import voxera.repisotory.ChannelRepository;
+import voxera.repository.ChannelRepository;
 
 import java.util.List;
 

@@ -2,7 +2,7 @@ package voxera.service;
 
 import org.springframework.stereotype.Service;
 import voxera.entity.Server;
-import voxera.repisotory.ServerRepository;
+import voxera.repository.ServerRepository;
 
 import java.util.List;
 
