@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat | VOXERA</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+<nav>
+
+    <div class="logo">
+        VOXERA
+    </div>
+
+    <div class="nav-buttons">
+        <button title="Home" onclick="window.location.href='/'">🏠</button>
+        <button title="Chat" onclick="window.location.href='/chat'">⌨️</button>
+        <button id="cameraButton" title="Kamera" aria-pressed="false">📷</button>
+        <button title="Impressum" onclick="window.location.href='/impressum'">ⓘ</button>
+    </div>
+
+</nav>
+
+<div class="chat-layout">
+
+    <aside class="member-panel">
+
+        <h2>Mitglieder</h2>
+
+        <!-- später Member-Liste -->
+
+    </aside>
+
+    <main class="chat-panel">
+
+        <div class="chat-header">
+            <h2>Chat</h2>
+        </div>
+
+        <div class="chat-messages">
+
+            <div class="message own">
+                Hallo!
+            </div>
+
+            <div class="message other">
+                Hi, wie geht's?
+            </div>
+
+        </div>
+
+        <div class="chat-input-area">
+
+            <input
+                    type="text"
+                    class="chat-input"
+                    placeholder="Nachricht eingeben..."
+            >
+
+            <button class="send-button">
+                Senden
+            </button>
+
+        </div>
+
+    </main>
+
+</div>
+
+<script th:src="@{/js/chat.js}"></script>
+</body>
+</html>
