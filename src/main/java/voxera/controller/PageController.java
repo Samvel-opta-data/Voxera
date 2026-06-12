@@ -16,4 +16,10 @@ public class PageController {
     public String impressum() {
         return "Impressum";
     }
+
+    @GetMapping("/tutorial")
+    public String tutorial() {
+        return "Tutorial";
+    }
+
 }

@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Impressum | VOXERA</title>
-
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 
@@ -14,98 +13,74 @@
     <div class="logo">VOXERA</div>
 
     <div class="nav-buttons">
-        <button title="Home" onclick="window.location.href='/'">⌂</button>
-        <button title="Telefon">☎</button>
+        <button title="Home" onclick="window.location.href='/'">🏠</button>
+        <button title="Chat">⌨️</button>
         <button id="cameraButton" title="Kamera" aria-pressed="false">📷</button>
         <button title="Impressum" onclick="window.location.href='/impressum'">ⓘ</button>
     </div>
 </nav>
 
 <main>
-
     <section class="hero">
-
         <h1>Impressum</h1>
-
-        <p>
-            Angaben gemäß § 5 TMG
-        </p>
-
+        <p>Angaben gemäß § 5 TMG</p>
+        <div class="scroll-indicator">
+            <span></span>
+            <span></span>
+        </div>
     </section>
 
     <section class="features">
-
         <div class="card">
-
             <h3>Anbieter</h3>
-
             <p>
                 Dustin<br>
                 Samvel<br>
                 Vladyslav
             </p>
-
         </div>
 
         <div class="card">
-
             <h3>Kontakt</h3>
-
             <p>
                 Microsoft Teams:<br>
                 Dustin D, Samvel A, Vladyslav R
             </p>
-
         </div>
 
         <div class="card">
-
             <h3>Vertreten durch</h3>
-
             <p>
                 Detlef Mertsch<br>
                 Geschäftsführer
             </p>
-
         </div>
 
         <div class="card">
-
             <h3>Registereintrag</h3>
-
             <p>
                 Handelsregister: HRB XXXXX<br>
                 Registergericht: Essen
             </p>
-
         </div>
-
         <div class="card">
-
             <h3>Umsatzsteuer-ID</h3>
-
             <p>
                 Umsatzsteuer-Identifikationsnummer gemäß §27a UStG:<br><br>
 
                 DE123456789
             </p>
-
         </div>
 
         <div class="card">
-
             <h3>Verantwortlich für den Inhalt</h3>
-
             <p>
                 Maximilian Paul G<br>
                 Straßenname 1<br>
                 12345 Musterstadt
             </p>
-
         </div>
-
     </section>
-
 </main>
 
 <div class="camera-widget" id="cameraWidget" hidden>
@@ -136,7 +111,7 @@
             }
 
             try {
-                cameraStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+                cameraStream = await navigator.mediaDevices.getUserMedia({video: true, audio: false});
                 cameraPreview.srcObject = cameraStream;
                 cameraWidget.hidden = false;
                 cameraWidget.classList.remove('error');
