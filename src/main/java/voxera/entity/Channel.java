@@ -8,7 +8,9 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(exclude = {"category", "messages"})
+@ToString
+
+(exclude = {"category", "messages"})
 public class Channel {
 
     @Id
