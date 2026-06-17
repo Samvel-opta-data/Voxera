@@ -1,6 +1,7 @@
 package voxera.websocket;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.lang.NonNull;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -40,7 +41,7 @@ public class VoxeraWebSocketHandler extends TextWebSocketHandler {
     }
 
     @Override
-    protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
+    protected void handleTextMessage(WebSocketSession session, @NonNull TextMessage message) throws Exception {
         RealtimeMessage inbound = objectMapper.readValue(message.getPayload(), RealtimeMessage.class);
         String sender = resolveSender(session, inbound);
 
@@ -101,7 +102,7 @@ public class VoxeraWebSocketHandler extends TextWebSocketHandler {
         }
     }
 
-    private void forwardToTarget(String sender, RealtimeMessage inbound, String type) throws IOException {
+    private void forwardToTarget(String sender, @NonNull RealtimeMessage inbound, String type) throws IOException {
         if (inbound.to() == null || inbound.to().isBlank()) {
             return;
         }
@@ -140,6 +141,7 @@ public class VoxeraWebSocketHandler extends TextWebSocketHandler {
         broadcast(payload);
     }
 
+    @NonNull
     private Map<String, Object> presenceSnapshotPayload() {
         Map<String, Object> payload = new HashMap<>();
         payload.put("users", presenceService.snapshot());
@@ -147,15 +149,18 @@ public class VoxeraWebSocketHandler extends TextWebSocketHandler {
         return payload;
     }
 
+    @NonNull
     private RealtimeMessage systemMessage(String type, String from, String to, String content) {
         return objectMessage(type, from, to, null, content, null, null, null, "info", Instant.now().toString(), null);
     }
 
+    @NonNull
     private RealtimeMessage objectMessage(String type, String from, String to, String roomId, String content, String media, String sdp, String candidate, String status, String timestamp, Map<String, Object> payload) {
         return new RealtimeMessage(type, from, to, roomId, content, media, sdp, candidate, status, timestamp, payload);
     }
 
-    private String resolveUsername(WebSocketSession session) {
+    @NonNull
+    private String resolveUsername(@NonNull WebSocketSession session) {
         Object value = session.getAttributes().get("username");
         if (value != null && !value.toString().isBlank()) {
             return value.toString();
@@ -166,18 +171,20 @@ public class VoxeraWebSocketHandler extends TextWebSocketHandler {
         return "guest-" + session.getId().substring(0, Math.min(session.getId().length(), 8));
     }
 
-    private String resolveSender(WebSocketSession session, RealtimeMessage inbound) {
+    @NonNull
+    private String resolveSender(WebSocketSession session, @NonNull RealtimeMessage inbound) {
         if (inbound.from() != null && !inbound.from().isBlank()) {
             return inbound.from();
         }
         return resolveUsername(session);
     }
 
+    @NonNull
     private String safeType(String type) {
         return type == null ? "" : type.trim().toLowerCase();
     }
 
-    private boolean sendToUser(String username, RealtimeMessage message) throws IOException {
+    private boolean sendToUser(String username, @NonNull RealtimeMessage message) throws IOException {
         boolean delivered = false;
         for (WebSocketSession target : presenceService.getSessions(username)) {
             send(target, message);
@@ -192,7 +199,7 @@ public class VoxeraWebSocketHandler extends TextWebSocketHandler {
         }
     }
 
-    private void send(WebSocketSession session, RealtimeMessage message) throws IOException {
+    private void send(@NonNull WebSocketSession session, @NonNull RealtimeMessage message) throws IOException {
         if (session.isOpen()) {
             session.sendMessage(new TextMessage(objectMapper.writeValueAsString(message)));
         }

@@ -3,15 +3,15 @@ package voxera.controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import voxera.entity.User;
-import voxera.service.userService;
+import voxera.service.UserService;
 
 @RestController
 @RequestMapping("/api/auth")
-public class authController {
+public class AuthController {
 
-    private final userService userService;
+    private final UserService userService;
 
-    public authController(userService userService) {
+    public AuthController(UserService userService) {
         this.userService = userService;
     }
 

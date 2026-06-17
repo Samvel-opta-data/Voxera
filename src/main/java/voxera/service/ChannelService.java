@@ -7,11 +7,11 @@ import voxera.repository.ChannelRepository;
 import java.util.List;
 
 @Service
-public class channelService {
+public class ChannelService {
 
     private final ChannelRepository channelRepository;
 
-    public channelService(ChannelRepository channelRepository) {
+    public ChannelService(ChannelRepository channelRepository) {
         this.channelRepository = channelRepository;
     }
 

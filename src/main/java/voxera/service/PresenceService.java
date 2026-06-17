@@ -1,5 +1,6 @@
 package voxera.service;
 
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.web.socket.WebSocketSession;
 import voxera.realtime.OnlineUserView;
@@ -22,7 +23,7 @@ public class PresenceService {
         userBySessionId.put(session.getId(), username);
     }
 
-    public void unregister(WebSocketSession session) {
+    public void unregister(@NonNull WebSocketSession session) {
         String username = userBySessionId.remove(session.getId());
         if (username == null) {
             return;
@@ -36,7 +37,7 @@ public class PresenceService {
         }
     }
 
-    public String getUsername(WebSocketSession session) {
+    public String getUsername(@NonNull WebSocketSession session) {
         return userBySessionId.get(session.getId());
     }
 
@@ -47,7 +48,7 @@ public class PresenceService {
         return Collections.unmodifiableList(users);
     }
 
-    public Set<WebSocketSession> getSessions(String username) {
+    public Set<WebSocketSession> getSessions(@NonNull String username) {
         return sessionsByUser.getOrDefault(username, Set.of());
     }
 

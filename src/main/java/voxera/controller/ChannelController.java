@@ -2,17 +2,17 @@ package voxera.controller;
 
 import org.springframework.web.bind.annotation.*;
 import voxera.entity.Channel;
-import voxera.service.channelService;
+import voxera.service.ChannelService;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/channels")
-public class channelController {
+public class ChannelController {
 
-    private final channelService channelService;
+    private final ChannelService channelService;
 
-    public channelController(channelService channelService) {
+    public ChannelController(ChannelService channelService) {
         this.channelService = channelService;
     }
 
