@@ -15,7 +15,7 @@ public class Channel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer channelId;
+    private int channelId;
 
     private String channelName;
 
