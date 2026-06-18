@@ -3,84 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Impressum | VOXERA</title>
+    <title>Registrieren | VOXERA</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
-
 <body>
-
 <nav>
     <div class="logo">VOXERA</div>
-
     <div class="nav-buttons">
         <button title="Home" onclick="window.location.href='/'">🏠</button>
-        <button title="Chat" onclick ="window.location.href='/chat'">⌨️</button>
-        <button id="cameraButton" title="Kamera" aria-pressed="false">📷</button>
         <button title="Impressum" onclick="window.location.href='/impressum'">ⓘ</button>
-        <button title="Anmelden" onclick="window.location.href='/login'">👤</button>
     </div>
 </nav>
-
 <main>
     <section class="hero">
-        <h1>Impressum</h1>
-        <p>Angaben gemäß § 5 TMG</p>
-        <div class="scroll-indicator">
-            <span></span>
-            <span></span>
-        </div>
-    </section>
+        <h1>Anmelden</h1>
+        <p>Melden Sie sich hier in Ihrem Konto an!</p>
+        <form th:action="@{/login}" method="post" class="card" style="width:400px;">
 
-    <section class="features">
-        <div class="card">
-            <h3>Anbieter</h3>
-            <p>
-                Dustin<br>
-                Samvel<br>
-                Vladyslav
-            </p>
-        </div>
+            <input type="text" name="username" placeholder="Benutzername" required>
 
-        <div class="card">
-            <h3>Kontakt</h3>
-            <p>
-                Microsoft Teams:<br>
-                Dustin D, Samvel A, Vladyslav R
-            </p>
-        </div>
+            <br><br>
 
-        <div class="card">
-            <h3>Vertreten durch</h3>
-            <p>
-                Detlef Mertsch<br>
-                Geschäftsführer
-            </p>
-        </div>
+            <input type="password" name="password" placeholder="Passwort" required>
 
-        <div class="card">
-            <h3>Registereintrag</h3>
-            <p>
-                Handelsregister: HRB XXXXX<br>
-                Registergericht: Essen
-            </p>
-        </div>
-        <div class="card">
-            <h3>Umsatzsteuer-ID</h3>
-            <p>
-                Umsatzsteuer-Identifikationsnummer gemäß §27a UStG:<br><br>
+            <br><br>
 
-                DE123456789
-            </p>
-        </div>
-
-        <div class="card">
-            <h3>Verantwortlich für den Inhalt</h3>
-            <p>
-                Maximilian Paul G<br>
-                Straßenname 1<br>
-                12345 Musterstadt
-            </p>
-        </div>
+            <button class="cta" type="submit">
+                Einloggen
+            </button>
+            <Button class="cta" type="button" onclick="window.location.href='/register'">
+                Kein Account?
+                Registrieren!
+            </Button>
+        </form>
     </section>
 </main>
 
@@ -112,7 +67,7 @@
             }
 
             try {
-                cameraStream = await navigator.mediaDevices.getUserMedia({video: true, audio: false});
+                cameraStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
                 cameraPreview.srcObject = cameraStream;
                 cameraWidget.hidden = false;
                 cameraWidget.classList.remove('error');
@@ -137,6 +92,5 @@
         });
     })();
 </script>
-
 </body>
 </html>

@@ -32,6 +32,9 @@ public class User {
     @Column(nullable = false, unique = true, length = 120)
     private String email;
 
-    @Column(length = 500)
+    @Column(name = "user_description", length = 500)
     private String userDescription;
+
+    @Column(nullable = false)
+    private String role;
 }

@@ -1,3 +1,4 @@
+<!-- Zeile 9 - 10 sowie Zeile 77 - 83 -->
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -5,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat | VOXERA</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 </head>
 
 <body>
@@ -20,6 +23,7 @@
         <button title="Chat" onclick="window.location.href='/chat'">⌨️</button>
         <button id="cameraButton" title="Kamera" aria-pressed="false">📷</button>
         <button title="Impressum" onclick="window.location.href='/impressum'">ⓘ</button>
+        <button title="Anmelden" onclick="window.location.href='/login'">👤</button>
     </div>
 
 </nav>
@@ -54,11 +58,13 @@
 
         <div class="chat-input-area">
 
-            <input
-                    type="text"
-                    class="chat-input"
-                    placeholder="Nachricht eingeben..."
-            >
+            <label>
+                <input
+                        type="text"
+                        class="chat-input"
+                        placeholder="Nachricht eingeben..."
+                >
+            </label>
 
             <button class="send-button">
                 Senden
@@ -70,6 +76,10 @@
 
 </div>
 
+<script th:inline="javascript">
+    const currentUsername = /*[[${#authentication.name}]]*/ 'Gast';
+</script>
 <script th:src="@{/js/chat.js}"></script>
+
 </body>
 </html>
