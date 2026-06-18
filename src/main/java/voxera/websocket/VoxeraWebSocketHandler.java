@@ -46,7 +46,8 @@ public class VoxeraWebSocketHandler extends TextWebSocketHandler {
 
         switch (safeType(inbound.type())) {
             case "chat" -> handleChat(sender, inbound);
-            case "call.invite", "call.offer" -> forwardToTarget(sender, inbound, "call.invite");
+            case "call.invite" -> forwardToTarget(sender, inbound, "call.invite");
+            case "call.offer" -> forwardToTarget(sender, inbound, "call.offer");
             case "call.answer" -> forwardToTarget(sender, inbound, "call.answer");
             case "call.ice" -> forwardToTarget(sender, inbound, "call.ice");
             case "call.accept" -> forwardToTarget(sender, inbound, "call.accept");

@@ -1,11 +1,17 @@
 package voxera.config;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.server.ServerHttpRequest;
+import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
+import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.config.annotation.*;
+import org.springframework.web.socket.server.HandshakeInterceptor;
 import voxera.service.MessageService;
 import voxera.service.PresenceService;
 import voxera.websocket.VoxeraWebSocketHandler;
+
+import java.util.Map;
 
 @Configuration
 @EnableWebSocketMessageBroker
@@ -35,6 +41,27 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer, WebSoc
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(new VoxeraWebSocketHandler(presenceService, messageService, userRepository), "/voxera-ws").setAllowedOrigins("*");
+        registry.addHandler(new VoxeraWebSocketHandler(presenceService, messageService, userRepository), "/voxera-ws")
+                .setAllowedOrigins("*")
+                .addInterceptors(new HandshakeInterceptor() {
+                    @Override
+                    public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response,
+                                                   WebSocketHandler wsHandler, Map<String, Object> attributes) {
+                        String query = request.getURI().getQuery();
+                        if (query != null) {
+                            for (String param : query.split("&")) {
+                                String[] kv = param.split("=", 2);
+                                if (kv.length == 2 && "username".equals(kv[0])) {
+                                    attributes.put("username", kv[1]);
+                                }
+                            }
+                        }
+                        return true;
+                    }
+
+                    @Override
+                    public void afterHandshake(ServerHttpRequest request, ServerHttpResponse response,
+                                               WebSocketHandler wsHandler, Exception exception) {}
+                });
     }
 }
