@@ -10,7 +10,6 @@ button.addEventListener("click", async () => {
 
     await fetch("/api/chat/send", {
         "method": "POST",
-
         "headers": {
             "Content-Type": "application/json"
         },
@@ -18,7 +17,6 @@ button.addEventListener("click", async () => {
             message: text,
             timestamp: Date.now()
         })
-
     });
 
     input.value = "";
