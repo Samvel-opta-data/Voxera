@@ -3,7 +3,7 @@ const button = document.querySelector(".send-button");
 
 button.addEventListener("click", async () => {
     const text = input.value.trim();
-
+    //
     if (text === "") {
         return;
     }

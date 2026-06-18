@@ -26,4 +26,14 @@ public class PageController {
     public String chat() {
         return "Chat";
     }
+
+    @GetMapping("/login")
+    public String login() {
+        return "Login";
+    }
+
+    @GetMapping("/register")
+    public String register() {
+        return "Register";
+    }
 }
