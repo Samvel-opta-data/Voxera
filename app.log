@@ -1,0 +1,93 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -------------------------< org.example:Voxera >-------------------------
+[INFO] Building Voxera 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] >>> spring-boot:3.5.6:run (default-cli) > test-compile @ Voxera >>>
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ Voxera ---
+[INFO] Copying 1 resource from src\main\resources to target\classes
+[INFO] Copying 8 resources from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.11.0:compile (default-compile) @ Voxera ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ Voxera ---
+[INFO] skip non existing resourceDirectory C:\Users\zarro\voxera\main3\src\test\resources
+[INFO] 
+[INFO] --- compiler:3.11.0:testCompile (default-testCompile) @ Voxera ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] <<< spring-boot:3.5.6:run (default-cli) < test-compile @ Voxera <<<
+[INFO] 
+[INFO] 
+[INFO] --- spring-boot:3.5.6:run (default-cli) @ Voxera ---
+[INFO] Attaching agents: []
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.5.6)
+
+2026-06-19T08:47:06.345+02:00  INFO 9360 --- [Voxera] [  restartedMain] voxera.VoxeraApplication                 : Starting VoxeraApplication using Java 21.0.9 with PID 9360 (C:\Users\zarro\voxera\main3\target\classes started by zarro in C:\Users\zarro\voxera\main3)
+2026-06-19T08:47:06.361+02:00  INFO 9360 --- [Voxera] [  restartedMain] voxera.VoxeraApplication                 : No active profile set, falling back to 1 default profile: "default"
+2026-06-19T08:47:06.416+02:00  INFO 9360 --- [Voxera] [  restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-06-19T08:47:06.416+02:00  INFO 9360 --- [Voxera] [  restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-06-19T08:47:07.704+02:00  INFO 9360 --- [Voxera] [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-06-19T08:47:07.783+02:00  INFO 9360 --- [Voxera] [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 81 ms. Found 6 JPA repository interfaces.
+2026-06-19T08:47:08.500+02:00  INFO 9360 --- [Voxera] [  restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-06-19T08:47:08.516+02:00  INFO 9360 --- [Voxera] [  restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-06-19T08:47:08.516+02:00  INFO 9360 --- [Voxera] [  restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.46]
+2026-06-19T08:47:08.565+02:00  INFO 9360 --- [Voxera] [  restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-06-19T08:47:08.565+02:00  INFO 9360 --- [Voxera] [  restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2149 ms
+2026-06-19T08:47:08.861+02:00  INFO 9360 --- [Voxera] [  restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-06-19T08:47:08.915+02:00  INFO 9360 --- [Voxera] [  restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.29.Final
+2026-06-19T08:47:08.948+02:00  INFO 9360 --- [Voxera] [  restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-06-19T08:47:09.266+02:00  INFO 9360 --- [Voxera] [  restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-06-19T08:47:09.297+02:00  INFO 9360 --- [Voxera] [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-06-19T08:47:09.505+02:00  INFO 9360 --- [Voxera] [  restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:voxeradb user=SA
+2026-06-19T08:47:09.521+02:00  INFO 9360 --- [Voxera] [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-06-19T08:47:09.546+02:00  WARN 9360 --- [Voxera] [  restartedMain] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-06-19T08:47:09.569+02:00  INFO 9360 --- [Voxera] [  restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 2.3.232
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-06-19T08:47:10.558+02:00  INFO 9360 --- [Voxera] [  restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+Hibernate: create table channel (channel_id integer generated by default as identity, channel_name varchar(255), category_id integer, primary key (channel_id))
+Hibernate: create table channel_category (id integer generated by default as identity, category_name varchar(255), server_id integer, primary key (id))
+Hibernate: create table message (id integer generated by default as identity, content varchar(4000) not null, timestamp bigint not null, channel_id integer, sender_id integer, primary key (id))
+Hibernate: create table server (server_id integer generated by default as identity, server_name varchar(255), owner_id integer, primary key (server_id))
+Hibernate: create table server_member (id integer generated by default as identity, role varchar(255), server_id integer, user_id integer, primary key (id))
+Hibernate: create table users (id integer generated by default as identity, email varchar(120) not null, password varchar(255) not null, role varchar(255) not null, user_description varchar(500), username varchar(40) not null, primary key (id))
+Hibernate: alter table if exists users drop constraint if exists UK6dotkott2kjsp8vw4d0m25fb7
+Hibernate: alter table if exists users add constraint UK6dotkott2kjsp8vw4d0m25fb7 unique (email)
+Hibernate: alter table if exists users drop constraint if exists UKr43af9ap4edm43mmtq01oddj6
+Hibernate: alter table if exists users add constraint UKr43af9ap4edm43mmtq01oddj6 unique (username)
+Hibernate: alter table if exists channel add constraint FKo4gx812l56nhr8kak3sc41jcd foreign key (category_id) references channel_category
+Hibernate: alter table if exists channel_category add constraint FKa7929mqxf9du5j3rpa9ticvbh foreign key (server_id) references server
+Hibernate: alter table if exists message add constraint FKiimr93ytmcuira5le0sldvvma foreign key (channel_id) references channel
+Hibernate: alter table if exists message add constraint FKbi5avhe69aol2mb1lnm6r4o2p foreign key (sender_id) references users
+Hibernate: alter table if exists server add constraint FKidd5bkt7d6bqnkdg1v795sihv foreign key (owner_id) references users
+Hibernate: alter table if exists server_member add constraint FKqm0wfofgltycax9reokyynyv5 foreign key (server_id) references server
+Hibernate: alter table if exists server_member add constraint FKer7imxi44c6su9970t48jqrgl foreign key (user_id) references users
+2026-06-19T08:47:10.621+02:00  INFO 9360 --- [Voxera] [  restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-06-19T08:47:10.984+02:00  WARN 9360 --- [Voxera] [  restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-06-19T08:47:11.270+02:00  INFO 9360 --- [Voxera] [  restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoints beneath base path '/actuator'
+2026-06-19T08:47:11.302+02:00  INFO 9360 --- [Voxera] [  restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
+2026-06-19T08:47:11.624+02:00  INFO 9360 --- [Voxera] [  restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:voxeradb'
+2026-06-19T08:47:11.673+02:00  INFO 9360 --- [Voxera] [  restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2026-06-19T08:47:11.717+02:00  INFO 9360 --- [Voxera] [  restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : Starting...
+2026-06-19T08:47:11.717+02:00  INFO 9360 --- [Voxera] [  restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@6f562756]]
+2026-06-19T08:47:11.717+02:00  INFO 9360 --- [Voxera] [  restartedMain] o.s.m.s.b.SimpleBrokerMessageHandler     : Started.
+2026-06-19T08:47:11.752+02:00  INFO 9360 --- [Voxera] [  restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2026-06-19T08:47:11.762+02:00  INFO 9360 --- [Voxera] [  restartedMain] voxera.VoxeraApplication                 : Started VoxeraApplication in 5.847 seconds (process running for 6.219)

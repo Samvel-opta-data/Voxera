@@ -5,6 +5,151 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VOXERA</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+        /* ── Call Overlay ─────────────────────────────────────── */
+        #callOverlay {
+            display: none;
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            width: min(480px, calc(100vw - 32px));
+            max-height: calc(100vh - 48px);
+            overflow-y: auto;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            border-radius: 20px;
+            box-shadow: 0 8px 40px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.08);
+            z-index: 9999;
+            padding: 20px;
+            color: #fff;
+            font-family: inherit;
+        }
+        #callOverlay.open { display: block; }
+
+        /* Header inside overlay */
+        .co-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+        .co-header h3 {
+            margin: 0;
+            font-size: 16px;
+            font-weight: 700;
+            background: linear-gradient(90deg, #a78bfa, #60a5fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 1px;
+        }
+        .co-close {
+            background: rgba(255,255,255,0.08);
+            border: none; color: #fff; cursor: pointer;
+            width: 28px; height: 28px; border-radius: 50%;
+            font-size: 14px; display: flex; align-items: center; justify-content: center;
+            transition: background 0.2s;
+        }
+        .co-close:hover { background: rgba(255,255,255,0.18); }
+
+        /* Connect row */
+        .co-row {
+            display: flex; gap: 8px; margin-bottom: 10px;
+        }
+        .co-row input {
+            flex: 1; padding: 9px 12px; border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.15);
+            background: rgba(255,255,255,0.07);
+            color: #fff; font-size: 14px; outline: none;
+            transition: border 0.2s;
+        }
+        .co-row input:focus { border-color: #a78bfa; }
+        .co-row input::placeholder { color: rgba(255,255,255,0.35); }
+
+        /* Buttons */
+        .co-btn {
+            padding: 9px 16px; border-radius: 10px; border: none;
+            cursor: pointer; font-size: 13px; font-weight: 600;
+            transition: opacity 0.2s, transform 0.1s;
+            white-space: nowrap;
+        }
+        .co-btn:active { transform: scale(0.96); }
+        .co-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+        .co-btn-purple { background: linear-gradient(135deg, #7c3aed, #4f46e5); color: #fff; }
+        .co-btn-green  { background: linear-gradient(135deg, #059669, #10b981); color: #fff; }
+        .co-btn-red    { background: linear-gradient(135deg, #dc2626, #ef4444); color: #fff; }
+
+        /* Videos */
+        .co-videos {
+            display: flex; gap: 10px; margin: 12px 0;
+        }
+        .co-video-box {
+            flex: 1; display: flex; flex-direction: column; gap: 4px; align-items: center;
+        }
+        .co-video-box label {
+            font-size: 11px; color: rgba(255,255,255,0.45); text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .co-video-box video {
+            width: 100%; height: 130px; border-radius: 10px;
+            background: #0a0a0f; object-fit: cover;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        /* Status */
+        #coStatus {
+            font-size: 12px; color: rgba(255,255,255,0.5);
+            text-align: center; min-height: 16px; margin-bottom: 8px;
+        }
+
+        /* Incoming banner */
+        #coIncoming {
+            display: none;
+            background: rgba(99,102,241,0.2);
+            border: 1px solid rgba(99,102,241,0.4);
+            border-radius: 10px; padding: 10px 12px;
+            text-align: center; margin-bottom: 10px;
+            font-size: 13px;
+        }
+        #coIncoming .ci-btns { display: flex; gap: 8px; justify-content: center; margin-top: 8px; }
+
+        /* Online list */
+        .co-online {
+            margin-top: 10px;
+            border-top: 1px solid rgba(255,255,255,0.07);
+            padding-top: 10px;
+        }
+        .co-online-label {
+            font-size: 10px; color: rgba(255,255,255,0.3);
+            text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px;
+        }
+        #coOnlineUsers span {
+            display: inline-block; margin: 2px 4px; padding: 3px 10px;
+            background: rgba(167,139,250,0.15); border-radius: 20px;
+            color: #c4b5fd; font-size: 12px; cursor: pointer;
+            border: 1px solid rgba(167,139,250,0.2);
+            transition: background 0.2s;
+        }
+        #coOnlineUsers span:hover { background: rgba(167,139,250,0.3); }
+
+        /* Media controls (mute / camera) – only during a call */
+        .co-media-controls { display: none; gap: 8px; justify-content: center; margin-bottom: 8px; }
+        .co-media-controls.show { display: flex; }
+        .co-btn-ghost { background: rgba(255,255,255,0.10); color: #fff; }
+        .co-btn-ghost.off { background: linear-gradient(135deg, #dc2626, #ef4444); }
+
+        /* Online count badge */
+        .co-online-label .co-count {
+            color: rgba(255,255,255,0.55); font-weight: 600;
+        }
+
+        /* Small screens: dock the overlay across the bottom */
+        @media (max-width: 540px) {
+            #callOverlay {
+                left: 12px; right: 12px; bottom: 12px;
+                width: auto; padding: 16px;
+            }
+            .co-video-box video { height: 110px; }
+        }
+    </style>
 </head>
 <body>
 <nav>
@@ -12,7 +157,7 @@
     <div class="nav-buttons">
         <button title="Home" onclick="window.location.href='/'">🏠</button>
         <button title="Chat" onclick ="window.location.href='/chat'">⌨️</button>
-        <button id="cameraButton" title="Kamera" aria-pressed="false">📷</button>
+        <button title="Video-Anruf" aria-label="Video-Anruf öffnen" id="navCallBtn" onclick="toggleCallOverlay()">📷</button>
         <button title="Impressum" onclick="window.location.href='/impressum'">ⓘ</button>
         <button title="Anmelden" onclick="window.location.href='/login'">👤</button>
     </div>
@@ -34,58 +179,331 @@
     </section>
 </main>
 
-<div class="camera-widget" id="cameraWidget" hidden>
-    <video id="cameraPreview" autoplay playsinline muted></video>
-    <div class="camera-label">Kamera-Vorschau</div>
-    <div class="camera-error" id="cameraError"></div>
+<!-- ── Call Overlay (kleines Fenster unten rechts) ─────────── -->
+<div id="callOverlay">
+    <div class="co-header">
+        <h3>📹 VOXERA CALL</h3>
+        <button class="co-close" onclick="toggleCallOverlay()" title="Schließen">✕</button>
+    </div>
+
+    <!-- Username eingeben -->
+    <div class="co-row">
+        <input id="myUsername" type="text" placeholder="Dein Username…" maxlength="30"/>
+        <button class="co-btn co-btn-purple" id="connectBtn" onclick="connect()">Verbinden</button>
+    </div>
+
+    <!-- Wen anrufen -->
+    <div class="co-row">
+        <input id="targetUsername" type="text" placeholder="Wen anrufen?" maxlength="30" disabled/>
+        <button class="co-btn co-btn-green" id="callBtn" onclick="startCall()" aria-label="Anruf starten" title="Anruf starten" disabled>📞</button>
+        <button class="co-btn co-btn-red"   id="hangupBtn" onclick="hangup()" aria-label="Auflegen" title="Auflegen" disabled>🔴</button>
+    </div>
+
+    <!-- Mikro / Kamera Steuerung (nur im Anruf sichtbar) -->
+    <div class="co-media-controls" id="coMediaControls">
+        <button class="co-btn co-btn-ghost" id="micBtn" onclick="toggleMic()" aria-label="Mikrofon stummschalten" title="Mikrofon stummschalten">🎙️ Mikro</button>
+        <button class="co-btn co-btn-ghost" id="camBtn" onclick="toggleCam()" aria-label="Kamera ausschalten" title="Kamera ausschalten">📷 Kamera</button>
+    </div>
+
+    <!-- Eingehender Anruf -->
+    <div id="coIncoming">
+        <div id="coIncomingText"></div>
+        <div class="ci-btns">
+            <button class="co-btn co-btn-green" onclick="acceptCall()">✅ Annehmen</button>
+            <button class="co-btn co-btn-red"   onclick="rejectCall()">❌ Ablehnen</button>
+        </div>
+    </div>
+
+    <!-- Videos -->
+    <div class="co-videos">
+        <div class="co-video-box">
+            <label>Ich</label>
+            <video id="localVideo" autoplay playsinline muted></video>
+        </div>
+        <div class="co-video-box">
+            <label id="remoteLabel">Gegenseite</label>
+            <video id="remoteVideo" autoplay playsinline></video>
+        </div>
+    </div>
+
+    <div id="coStatus">Username eingeben und verbinden.</div>
+
+    <!-- Online User Liste -->
+    <div class="co-online">
+        <div class="co-online-label">🟢 Online <span class="co-count" id="coOnlineCount"></span></div>
+        <div id="coOnlineUsers"><span style="color:rgba(255,255,255,0.2);border:none;background:none">–</span></div>
+    </div>
 </div>
 
 <script>
-    (function () {
-        const cameraButton = document.getElementById('cameraButton');
-        const cameraWidget = document.getElementById('cameraWidget');
-        const cameraPreview = document.getElementById('cameraPreview');
-        const cameraError = document.getElementById('cameraError');
-        let cameraStream = null;
+(function () {
+    const WS_URL = 'ws://' + location.host + '/voxera-ws';
+    const ICE_SERVERS = [{ urls: 'stun:stun.l.google.com:19302' }];
 
-        async function toggleCamera() {
-            if (cameraStream) {
-                cameraStream.getTracks().forEach(track => track.stop());
-                cameraStream = null;
-                cameraPreview.srcObject = null;
-                cameraWidget.hidden = true;
-                cameraWidget.classList.remove('error');
-                cameraButton.classList.remove('active');
-                cameraButton.setAttribute('aria-pressed', 'false');
-                cameraError.textContent = '';
-                return;
-            }
+    let ws = null, myName = '', pc = null;
+    let localStream = null, pendingCaller = null, inCall = false;
 
-            try {
-                cameraStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
-                cameraPreview.srcObject = cameraStream;
-                cameraWidget.hidden = false;
-                cameraWidget.classList.remove('error');
-                cameraButton.classList.add('active');
-                cameraButton.setAttribute('aria-pressed', 'true');
-                cameraError.textContent = '';
-            } catch (error) {
-                cameraWidget.hidden = false;
-                cameraWidget.classList.add('error');
-                cameraError.textContent = 'Kamera konnte nicht gestartet werden. Bitte Browser-Berechtigung prüfen.';
-                cameraButton.classList.remove('active');
-                cameraButton.setAttribute('aria-pressed', 'false');
-                console.error(error);
-            }
+    const myUsernameInput = document.getElementById('myUsername');
+    const targetInput     = document.getElementById('targetUsername');
+    const connectBtn      = document.getElementById('connectBtn');
+    const callBtn         = document.getElementById('callBtn');
+    const hangupBtn       = document.getElementById('hangupBtn');
+    const coIncoming      = document.getElementById('coIncoming');
+    const coIncomingText  = document.getElementById('coIncomingText');
+    const localVideo      = document.getElementById('localVideo');
+    const remoteVideo     = document.getElementById('remoteVideo');
+    const remoteLabel     = document.getElementById('remoteLabel');
+    const statusEl        = document.getElementById('coStatus');
+    const onlineUsersEl   = document.getElementById('coOnlineUsers');
+    const overlay         = document.getElementById('callOverlay');
+    const navCallBtn      = document.getElementById('navCallBtn');
+    const mediaControls   = document.getElementById('coMediaControls');
+    const micBtn          = document.getElementById('micBtn');
+    const camBtn          = document.getElementById('camBtn');
+    const onlineCountEl    = document.getElementById('coOnlineCount');
+
+    // ── Overlay toggle ─────────────────────────────────────────
+    window.toggleCallOverlay = function () {
+        const open = overlay.classList.toggle('open');
+        navCallBtn.classList.toggle('active', open);
+    };
+
+    // ── Connect / Disconnect ───────────────────────────────────
+    window.connect = function () {
+        if (ws && ws.readyState === WebSocket.OPEN) { disconnect(); return; }
+        myName = myUsernameInput.value.trim();
+        if (!myName) { setStatus('⚠️ Bitte Username eingeben.'); return; }
+        connectBtn.disabled = true;
+        myUsernameInput.disabled = true;
+        setStatus('… verbinde …');
+        ws = new WebSocket(WS_URL + '?username=' + encodeURIComponent(myName));
+        ws.onopen = () => {
+            setStatus('✅ Verbunden als <strong>' + esc(myName) + '</strong>');
+            connectBtn.disabled = false;
+            connectBtn.textContent = 'Trennen';
+            targetInput.disabled = false;
+            callBtn.disabled = false;
+            send({ type: 'presence.request', from: myName });
+        };
+        ws.onmessage = (e) => {
+            let msg; try { msg = JSON.parse(e.data); } catch { return; }
+            handleMessage(msg);
+        };
+        ws.onclose = () => { resetConnectionUi(); setStatus('🔌 Getrennt.'); };
+        ws.onerror = () => setStatus('❌ Verbindungsfehler. (Eingeloggt?)');
+    };
+
+    function disconnect() {
+        if (inCall) cleanupCall();
+        if (ws) { try { ws.close(); } catch (e) {} ws = null; }
+        resetConnectionUi();
+        setStatus('🔌 Getrennt.');
+    }
+
+    function resetConnectionUi() {
+        connectBtn.disabled = false;
+        connectBtn.textContent = 'Verbinden';
+        myUsernameInput.disabled = false;
+        targetInput.disabled = true;
+        callBtn.disabled = true;
+        hangupBtn.disabled = true;
+        onlineUsersEl.innerHTML = '<span style="color:rgba(255,255,255,0.2);border:none;background:none">–</span>';
+        onlineCountEl.textContent = '';
+    }
+
+    function handleMessage(msg) {
+        switch (msg.type) {
+            case 'presence.update': renderOnline(msg.payload); break;
+            case 'call.invite':     onInvite(msg); break;
+            case 'call.accept':     onAccept(msg); break;
+            case 'call.reject':     onReject(msg); break;
+            case 'call.offer':      onOffer(msg); break;
+            case 'call.answer':     onAnswer(msg); break;
+            case 'call.ice':        onIce(msg); break;
+            case 'call.hangup':     onHangup(msg); break;
+            case 'system':
+                if (msg.content && msg.content.includes('offline'))
+                    setStatus('⚠️ ' + esc(targetInput.value) + ' ist offline.');
+                break;
         }
+    }
 
-        cameraButton.addEventListener('click', toggleCamera);
-        window.addEventListener('beforeunload', () => {
-            if (cameraStream) {
-                cameraStream.getTracks().forEach(track => track.stop());
-            }
-        });
-    })();
+    window.startCall = function () {
+        const target = targetInput.value.trim();
+        if (!target) { setStatus('⚠️ Ziel eingeben.'); return; }
+        if (target === myName) { setStatus('⚠️ Kein Selbstanruf.'); return; }
+        if (inCall) { setStatus('⚠️ Bereits in einem Anruf.'); return; }
+        setStatus('📞 Rufe <strong>' + esc(target) + '</strong> an…');
+        send({ type: 'call.invite', from: myName, to: target });
+    };
+
+    function onInvite(msg) {
+        if (inCall) { send({ type: 'call.reject', from: myName, to: msg.from, content: 'busy' }); return; }
+        pendingCaller = msg.from;
+        coIncomingText.innerHTML = '📞 Anruf von <strong>' + esc(msg.from) + '</strong>';
+        coIncoming.style.display = 'block';
+        if (!overlay.classList.contains('open')) toggleCallOverlay();
+        setStatus('');
+    }
+
+    window.acceptCall = async function () {
+        if (!pendingCaller) return;
+        coIncoming.style.display = 'none';
+        const caller = pendingCaller; pendingCaller = null;
+        inCall = true; remoteLabel.textContent = caller;
+        callBtn.disabled = true; hangupBtn.disabled = false;
+        setStatus('✅ Verbinde mit <strong>' + esc(caller) + '</strong>…');
+        localStream = await getMedia();
+        if (!localStream) return;
+        localVideo.srcObject = localStream;
+        showMediaControls();
+        setupPC(caller, false);
+        send({ type: 'call.accept', from: myName, to: caller });
+    };
+
+    window.rejectCall = function () {
+        if (!pendingCaller) return;
+        send({ type: 'call.reject', from: myName, to: pendingCaller });
+        pendingCaller = null;
+        coIncoming.style.display = 'none';
+        setStatus('Anruf abgelehnt.');
+    };
+
+    async function onAccept(msg) {
+        inCall = true; callBtn.disabled = true; hangupBtn.disabled = false;
+        remoteLabel.textContent = msg.from;
+        setStatus('✅ <strong>' + esc(msg.from) + '</strong> hat angenommen…');
+        localStream = await getMedia();
+        if (!localStream) return;
+        localVideo.srcObject = localStream;
+        showMediaControls();
+        setupPC(msg.from, true);
+    }
+
+    function onReject(msg) {
+        setStatus('❌ <strong>' + esc(msg.from) + '</strong> hat abgelehnt.');
+        inCall = false; hangupBtn.disabled = true; callBtn.disabled = false;
+    }
+
+    function setupPC(remoteUser, isCaller) {
+        pc = new RTCPeerConnection({ iceServers: ICE_SERVERS });
+        localStream.getTracks().forEach(t => pc.addTrack(t, localStream));
+        pc.ontrack = (e) => { remoteVideo.srcObject = e.streams[0]; };
+        pc.onicecandidate = (e) => {
+            if (e.candidate) send({ type: 'call.ice', from: myName, to: remoteUser, candidate: JSON.stringify(e.candidate) });
+        };
+        pc.onconnectionstatechange = () => {
+            if (pc.connectionState === 'connected') setStatus('🟢 Verbunden mit <strong>' + esc(remoteUser) + '</strong>');
+            if (pc.connectionState === 'disconnected' || pc.connectionState === 'failed') cleanupCall();
+        };
+        if (isCaller) {
+            pc.createOffer().then(offer => {
+                pc.setLocalDescription(offer);
+                send({ type: 'call.offer', from: myName, to: remoteUser, sdp: JSON.stringify(offer) });
+            });
+        }
+    }
+
+    async function onOffer(msg) {
+        if (!pc) return;
+        await pc.setRemoteDescription(new RTCSessionDescription(JSON.parse(msg.sdp)));
+        const answer = await pc.createAnswer();
+        await pc.setLocalDescription(answer);
+        send({ type: 'call.answer', from: myName, to: msg.from, sdp: JSON.stringify(answer) });
+    }
+
+    async function onAnswer(msg) {
+        if (!pc) return;
+        await pc.setRemoteDescription(new RTCSessionDescription(JSON.parse(msg.sdp)));
+    }
+
+    async function onIce(msg) {
+        if (!pc || !msg.candidate) return;
+        try { await pc.addIceCandidate(new RTCIceCandidate(JSON.parse(msg.candidate))); } catch (e) {}
+    }
+
+    function onHangup(msg) {
+        setStatus('📵 <strong>' + esc(msg.from) + '</strong> hat aufgelegt.');
+        cleanupCall();
+    }
+
+    window.hangup = function () {
+        const target = remoteLabel.textContent;
+        if (target && target !== 'Gegenseite') send({ type: 'call.hangup', from: myName, to: target });
+        cleanupCall();
+        setStatus('Anruf beendet.');
+    };
+
+    function cleanupCall() {
+        if (pc) { pc.close(); pc = null; }
+        if (localStream) { localStream.getTracks().forEach(t => t.stop()); localStream = null; }
+        localVideo.srcObject = null; remoteVideo.srcObject = null;
+        remoteLabel.textContent = 'Gegenseite';
+        inCall = false;
+        callBtn.disabled = !(ws && ws.readyState === WebSocket.OPEN);
+        hangupBtn.disabled = true;
+        hideMediaControls();
+    }
+
+    // ── Mikro / Kamera ─────────────────────────────────────────
+    function showMediaControls() {
+        mediaControls.classList.add('show');
+        setMediaBtn(micBtn, true, '🎙️ Mikro');
+        setMediaBtn(camBtn, true, '📷 Kamera');
+    }
+    function hideMediaControls() { mediaControls.classList.remove('show'); }
+
+    function setMediaBtn(btn, on, label) {
+        btn.classList.toggle('off', !on);
+        btn.textContent = (on ? '' : '🚫 ') + label;
+    }
+
+    window.toggleMic = function () {
+        if (!localStream) return;
+        const track = localStream.getAudioTracks()[0];
+        if (!track) return;
+        track.enabled = !track.enabled;
+        setMediaBtn(micBtn, track.enabled, '🎙️ Mikro');
+    };
+
+    window.toggleCam = function () {
+        if (!localStream) return;
+        const track = localStream.getVideoTracks()[0];
+        if (!track) return;
+        track.enabled = !track.enabled;
+        setMediaBtn(camBtn, track.enabled, '📷 Kamera');
+    };
+
+    async function getMedia() {
+        try { return await navigator.mediaDevices.getUserMedia({ video: true, audio: true }); }
+        catch (e) { setStatus('❌ Kamera/Mikro: ' + e.message); return null; }
+    }
+
+    function renderOnline(payload) {
+        if (!payload || !payload.users) return;
+        const users = payload.users;
+        onlineCountEl.textContent = users.length ? '(' + users.length + ')' : '';
+        if (!users.length) { onlineUsersEl.innerHTML = '<span style="color:rgba(255,255,255,0.2);border:none;background:none">Niemand</span>'; return; }
+        onlineUsersEl.innerHTML = users.map(u =>
+            '<span onclick="fillTarget(\'' + esc(u.username) + '\')" title="Anrufen">' + esc(u.username) + '</span>'
+        ).join('');
+    }
+
+    window.fillTarget = function (name) { if (!targetInput.disabled) targetInput.value = name; };
+
+    function send(obj) { if (ws && ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(obj)); }
+    function setStatus(html) { statusEl.innerHTML = html; }
+    function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+    // ── Enter-Taste: Verbinden bzw. Anrufen ────────────────────
+    myUsernameInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') connect(); });
+    targetInput.addEventListener('keydown', (e) => { if (e.key === 'Enter' && !targetInput.disabled) startCall(); });
+
+    // Call-Fenster automatisch öffnen, wenn mit ?call=1 verlinkt
+    if (new URLSearchParams(location.search).get('call')) {
+        toggleCallOverlay();
+    }
+})();
 </script>
 </body>
 </html>
