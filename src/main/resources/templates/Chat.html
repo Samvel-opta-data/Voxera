@@ -12,6 +12,8 @@
 
 <body>
 
+<input type="hidden" id="authUsername" th:value="${username}" />
+
 <nav>
 
     <div class="logo">
@@ -76,9 +78,8 @@
 
 </div>
 
-<script th:inline="javascript">
-    const currentUsername = /*[[${#authentication.name}]]*/ 'Gast';
-</script>
+<script th:src="@{/js/chat.js}"></script>
+
 <script th:src="@{/js/chat.js}"></script>
 
 </body>

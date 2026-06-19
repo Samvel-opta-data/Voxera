@@ -1,5 +1,6 @@
 package voxera.service;
 
+import org.springframework.lang.NonNull;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import voxera.entity.User;
@@ -27,7 +28,7 @@ public class UserService {
         return userRepository.findByUsername(username);
     }
 
-    public User save(User user) {
+    public User save(@NonNull User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         if (user.getRole() == null || user.getRole().isEmpty()) {

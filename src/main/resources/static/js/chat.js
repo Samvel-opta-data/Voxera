@@ -1,58 +1,56 @@
-const socket = new SockJS('/ws');
-const stompClient = Stomp.over(socket);
+let currentUsername = document.getElementById("authUsername")?.value || "Samvel";
+console.log("Aktiver Chat-User:", currentUsername);
+
+const socket = new SockJS(`/voxera-ws?username=${encodeURIComponent(currentUsername)}`);
 
 const chatMessages = document.querySelector(".chat-messages");
 const input = document.querySelector(".chat-input");
 const button = document.querySelector(".send-button");
 
-stompClient.connect({}, function (frame) {
-    console.log('Verbunden mit WebSocket: ' + frame);
+socket.onopen = function () {
+    console.log('Lite-WebSocket-Verbindung erfolgreich aufgebaut!');
+};
 
-    // Wir abonnieren den globalen Chat-Kanal
-    stompClient.subscribe('/topic/messages', function (messageOutput) {
-        const message = JSON.parse(messageOutput.body);
-        displayMessage(message);
-    });
-}, function(error) {
-    console.error('WebSocket Verbindungsfehler: ' + error);
-});
+socket.onmessage = function (event) {
+    try {
+        const message = JSON.parse(event.data);
+
+        // Nur normale Chat-Nachrichten verarbeiten und anzeigen
+        if (message.type === 'chat') {
+            displayMessage(message);
+        }
+    } catch (e) {
+        console.error("Fehler beim Lesen der Nachricht:", e);
+    }
+};
 
 function displayMessage(message) {
     const messageElement = document.createElement("div");
 
-    // Prüfen, ob die Nachricht von mir selbst kommt
-    if (message.from === currentUsername) {
-        messageElement.classList.add("message", "own");
-    } else {
-        messageElement.classList.add("message", "other");
-    }
+    messageElement.classList.add("message", message.from === currentUsername ? "own" : "other");
 
-    messageElement.textContent = message.from + ": " + message.content;
+    const sender = message.from ? message.from : "Unknown";
+    const textContent = message.content ? message.content : "";
+
+    messageElement.textContent = sender + ": " + textContent;
     chatMessages.appendChild(messageElement);
-    chatMessages.scrollTop = chatMessages.scrollHeight; 
+    chatMessages.scrollTop = chatMessages.scrollHeight; // Automatisch nach unten scrollen
 }
 
-button.addEventListener("click", () => {
-    sendMessage();
-});
-
-input.addEventListener("keypress", (event) => {
-    if (event.key === "Enter") {
-        sendMessage();
-    }
-});
+button.addEventListener("click", sendMessage);
+input.addEventListener("keypress", (event) => { if (event.key === "Enter") sendMessage(); });
 
 function sendMessage() {
     const text = input.value.trim();
     if (text === "") return;
 
     const chatMessage = {
-        type: 'CHAT',
+        type: 'chat',
         from: currentUsername,
         content: text,
-        timestamp: Date.now().toString()
+        roomId: 'global'
     };
 
-    stompClient.send("/app/chat.sendMessage", {}, JSON.stringify(chatMessage));
-    input.value = "";
+    socket.send(JSON.stringify(chatMessage));
+    input.value = ""; // Textfeld leeren
 }

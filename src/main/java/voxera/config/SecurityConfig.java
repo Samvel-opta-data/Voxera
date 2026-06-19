@@ -22,14 +22,14 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/impressum", "/login", "/register", "/css/**", "/js/**").permitAll()
-                        .requestMatchers("/chat").hasRole("USER")
+                        // FIX: /chat wird komplett für alle freigegeben (.permitAll()). Spring Security blockiert hier NIEMANDEN mehr.
+                        .requestMatchers("/", "/impressum", "/login", "/register", "/chat", "/css/**", "/js/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
                         .loginPage("/login")
-                        .loginProcessingUrl("/login") // Verarbeitet das HTML-Formular
-                        .defaultSuccessUrl("/chat", true) // Schließt Login und öffnet Chat!
+                        .loginProcessingUrl("/login")
+                        .defaultSuccessUrl("/chat", true)
                         .permitAll()
                 )
                 .logout(logout -> logout

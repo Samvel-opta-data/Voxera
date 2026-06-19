@@ -33,7 +33,7 @@ public class VoxeraWebSocketHandler extends TextWebSocketHandler {
     }
 
     @Override
-    public void afterConnectionEstablished(WebSocketSession session) throws Exception {
+    public void afterConnectionEstablished(@NonNull WebSocketSession session) throws Exception {
         String username = resolveUsername(session);
         presenceService.register(session, username);
         broadcastPresence();
@@ -41,13 +41,14 @@ public class VoxeraWebSocketHandler extends TextWebSocketHandler {
     }
 
     @Override
-    protected void handleTextMessage(WebSocketSession session, @NonNull TextMessage message) throws Exception {
+    protected void handleTextMessage(@NonNull WebSocketSession session, @NonNull TextMessage message) throws Exception {
         RealtimeMessage inbound = objectMapper.readValue(message.getPayload(), RealtimeMessage.class);
         String sender = resolveSender(session, inbound);
 
         switch (safeType(inbound.type())) {
             case "chat" -> handleChat(sender, inbound);
-            case "call.invite", "call.offer" -> forwardToTarget(sender, inbound, "call.invite");
+            case "call.invite" -> forwardToTarget(sender, inbound, "call.invite");
+            case "call.offer" -> forwardToTarget(sender, inbound, "call.offer");
             case "call.answer" -> forwardToTarget(sender, inbound, "call.answer");
             case "call.ice" -> forwardToTarget(sender, inbound, "call.ice");
             case "call.accept" -> forwardToTarget(sender, inbound, "call.accept");
@@ -59,19 +60,16 @@ public class VoxeraWebSocketHandler extends TextWebSocketHandler {
     }
 
     @Override
-    public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
+    public void afterConnectionClosed(@NonNull WebSocketSession session, @NonNull CloseStatus status) throws Exception {
         presenceService.unregister(session);
         broadcastPresence();
     }
 
-    private void handleChat(String senderName, RealtimeMessage inbound) throws IOException {
+    private void handleChat(String senderName, @NonNull RealtimeMessage inbound) throws IOException {
         // Persist message
         User sender = userRepository.findByUsername(senderName).orElse(null);
         if (sender == null) {
             sender = new User();
-            // Since Lombok setters might be failing during the build in some environments,
-            // but we need to initialize the user, we use what we have.
-            // If the build fails here again, we will check the entity once more.
             sender = userRepository.save(sender);
         }
 
@@ -172,7 +170,7 @@ public class VoxeraWebSocketHandler extends TextWebSocketHandler {
     }
 
     @NonNull
-    private String resolveSender(WebSocketSession session, @NonNull RealtimeMessage inbound) {
+    private String resolveSender(@NonNull WebSocketSession session, @NonNull RealtimeMessage inbound) {
         if (inbound.from() != null && !inbound.from().isBlank()) {
             return inbound.from();
         }
@@ -193,7 +191,7 @@ public class VoxeraWebSocketHandler extends TextWebSocketHandler {
         return delivered;
     }
 
-    private void broadcast(RealtimeMessage message) throws IOException {
+    private void broadcast(@NonNull RealtimeMessage message) throws IOException {
         for (WebSocketSession target : presenceService.allSessions()) {
             send(target, message);
         }
